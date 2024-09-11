@@ -1,7 +1,11 @@
 # homebrew-wvlet
 
 Homebrew Tap Repository to support:
-```
-brew install wvlet/wvlet
+```bash
+# For the fist installation
+$ brew install wvlet/wvlet/wvlet
+
+# To upgrade the version
+$ brew upgrade wvlet
 ```
 
