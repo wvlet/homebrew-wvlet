@@ -32,6 +32,6 @@ jobs:
           git config --global user.name "Taro L. Saito"
           git config --global push.default simple
       - name: Commit changes
-        run: git diff-index --quiet HEAD || git commit -am "Update wvlet to ${VERSION}"
+        run: git diff-index --quiet --cached HEAD || git commit -am "Update wvlet to ${VERSION}"
       - name: Push changes
         run: git push || true
