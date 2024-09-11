@@ -26,10 +26,12 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV      
       - name: Update formura
         run: ./update-formula.sh > wvlet.rb
-      - name: Commit and push the change
+      - name: Setup git
         run : |
           git config --global user.email "leo@xerial.org"
           git config --global user.name "Taro L. Saito"
           git config --global push.default simple
-          git diff-index --quiet HEAD || git commit -am "Update wvlet to ${VERSION}"
-          git push || true
+      - name: Commit changes
+        run: git diff-index --quiet HEAD || git commit -am "Update wvlet to ${VERSION}"
+      - name: Push changes
+        run: git push || true
