@@ -1,0 +1,35 @@
+name: Update Homebrew Formula
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  udpate:
+    name: Update brew formula
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        # We need to fetch all tags to get the latest tag
+        with:
+         fetch-depth: 0
+      - name: Set VERSION env
+        run: |
+          VERSION=$(cat VERSION)
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV      
+      - name: Update formura
+        run: ./update-formula.sh > wvlet.rb
+      - name: Commit and push the change
+        run : |
+          git config --global user.email "leo@xerial.org"
+          git config --global user.name "Taro L. Saito"
+          git config --global push.default simple
+          git commit -am "Updated to ${VERSION}"
+	  git push
