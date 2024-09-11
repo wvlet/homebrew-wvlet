@@ -9,3 +9,5 @@ $ brew install wvlet/wvlet/wvlet
 $ brew upgrade wvlet
 ```
 
+To update version of wvlet, change VERSION file. wvlet.rb file will be
+updated with GitHub Action.
