@@ -6,7 +6,7 @@ class Wvlet < Formula
   sha256 "c3b52cf97cb1878375dd3e2547cca099d500b8ead743409ad703e6f32920aeb3"
   license "Apache-2.0"
 
-  depends_on "openjdk@22"
+  depends_on "openjdk@23"
   
   def install
     libexec.install Dir["*"]
