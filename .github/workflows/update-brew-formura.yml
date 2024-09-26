@@ -34,6 +34,6 @@ jobs:
       - name: Commit changes
         run: |
           git add wvlet.rb
-          git diff-index --quiet --cached HEAD || git commit -am "Update wvlet to ${VERSION}"
+          git diff-index --quiet --cached HEAD || git commit -am "Update wvlet to ${VERSION} based on ${GITHUB_SHA}"
       - name: Push changes
         run: git push
