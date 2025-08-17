@@ -1,0 +1,39 @@
+name: Auto-merge Release PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.user.login == 'scala-steward-wvlet[bot]' &&
+      startsWith(github.event.pull_request.title, 'Release wvlet')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Enable auto-merge
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} \
+            --auto \
+            --merge \
+            --subject "Auto-merge: ${{ github.event.pull_request.title }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Auto-approve PR
+        run: |
+          gh pr review ${{ github.event.pull_request.number }} \
+            --approve \
+            --body "Auto-approved release PR from scala-steward-wvlet bot"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
