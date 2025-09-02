@@ -9,17 +9,44 @@ permissions:
   pull-requests: write
 
 jobs:
-  auto-merge:
+  update-formula-and-merge:
     runs-on: ubuntu-latest
     if: |
       github.event.pull_request.user.login == 'scala-steward-wvlet[bot]' &&
       startsWith(github.event.pull_request.title, 'Release wvlet')
     
     steps:
-      - name: Checkout repository
+      - name: Checkout PR
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set VERSION env
+        run: |
+          VERSION=$(cat VERSION)
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      
+      - name: Update formula
+        run: ./update-formula.sh > wvlet.rb
+      
+      - name: Setup git
+        run: |
+          git config --global user.email "leo@xerial.org"
+          git config --global user.name "Taro L. Saito"
+          git config --global push.default simple
+      
+      - name: Commit and push formula update
+        run: |
+          git add wvlet.rb
+          if ! git diff-index --quiet --cached HEAD; then
+            git commit -m "Update wvlet to ${VERSION} based on ${GITHUB_SHA}"
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          else
+            echo "No changes to commit"
+          fi
       
       - name: Enable auto-merge
         run: |
