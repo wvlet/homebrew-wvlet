@@ -48,19 +48,19 @@ jobs:
             echo "No changes to commit"
           fi
       
+      - name: Auto-approve PR
+        run: |
+          gh pr review ${{ github.event.pull_request.number }} \
+            --approve \
+            --body "Auto-approved release PR from scala-steward-wvlet bot"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
       - name: Enable auto-merge
         run: |
           gh pr merge ${{ github.event.pull_request.number }} \
             --auto \
             --squash \
             --subject "Auto-merge: ${{ github.event.pull_request.title }}"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Auto-approve PR
-        run: |
-          gh pr review ${{ github.event.pull_request.number }} \
-            --approve \
-            --body "Auto-approved release PR from scala-steward-wvlet bot"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
