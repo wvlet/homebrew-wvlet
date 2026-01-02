@@ -1,9 +1,9 @@
 class Wvlet < Formula
   desc "wvlet: A flow-style query language"
   homepage "https://wvlet.org/wvlet"
-  url "https://github.com/wvlet/wvlet/releases/download/v2025.1.22/wvlet-cli-2025.1.22.tar.gz"
-  version "2025.1.22"
-  sha256 "9f3da8865296284207f55e447eb142dbec89d6aa0721985c53553e58ea27badf"
+  url "https://github.com/wvlet/wvlet/releases/download/v2025.1.23/wvlet-cli-2025.1.23.tar.gz"
+  version "2025.1.23"
+  sha256 "8b04802f0f8a18b5d3ec68f35fef38f704f0694e15e27dfa6b16d347596ce652"
   license "Apache-2.0"
 
   depends_on "openjdk@25"
